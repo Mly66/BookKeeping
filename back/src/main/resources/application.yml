@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: Bookkeeping
+  ai:
+    openai:
+#      enabled: true
+#      api-key: 8888888888
+      api-key: 88888888888888
+      base-url: https://api.moonshot.cn
+#      base-url: https://dashscope.aliyuncs.com/compatible-mode(不需要/v1，控制器部分有配置)
+      chat:
+        options:
+#          model: qwen-max-latest
+          model: moonshot-v1-8k
+#      retry:
+#        max-attempts: 3
+#        initial-interval: 2000ms
+#        multiplier: 2.0
+#        max-interval: 10000ms
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookkeeping?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:schema.sql
+      continue-on-error: true
+  data:
+    redis:
+      port: 6379
+      timeout: 10000
+      database: 0
+      host: localhost
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+jwt:
+  secret: 8Zz5tw0Ionm3XPZZfN0NOml3z9FMfmpgXwovR9fp6ryDIoGRM8EPHAB6iHsc0fb
+  expiration: 1800000 # 30分钟
+
+logging:
+  level:
+    cn.nbmly.ai: debug
+    org.springframework.ai: debug
+    org.springframework.ai.chat: trace
+    org.springframework.ai.tool: trace
+    root: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
